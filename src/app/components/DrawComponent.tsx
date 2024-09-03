@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 "use client";
 
 import React, { useState } from "react";
@@ -5,8 +6,8 @@ import { Circle, Layer, Line, Rect, RegularPolygon, Stage } from "react-konva";
 
 interface Shape {
   type: "rect" | "circle" | "line" | "polygon";
-  x: number;
-  y: number;
+  x?: number;
+  y?: number;
   x2?: number;
   y2?: number;
   width?: number;
@@ -156,45 +157,84 @@ const DrawComponent: React.FC = () => {
 
   return (
     <div>
-      <div style={{ marginBottom: "20px" }}>
-        <button onClick={() => setShapeType("rect")}>Rectangle</button>
-        <button onClick={() => setShapeType("circle")}>Circle</button>
-        <button onClick={() => setShapeType("line")}>Line</button>
-        <button onClick={() => setShapeType("polygon")}>Polygon</button>
-        <label>
-          Color:
-          <select value={color} onChange={(e) => setColor(e.target.value)}>
-            <option value="black">Black</option>
-            <option value="blue">Blue</option>
-            <option value="red">Red</option>
-            <option value="green">Green</option>
-            <option value="purple">Purple</option>
-          </select>
-        </label>
-        <label>
-          Fill:
-          <select
-            value={fill ? "filled" : "outlined"}
-            onChange={(e) => setFill(e.target.value === "filled")}
+      <div className="p-6 bg-white shadow-lg rounded-lg">
+        <div className="space-x-2 flex flex-wrap items-center">
+          <button
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
+            onClick={() => setShapeType("rect")}
           >
-            <option value="filled">Filled</option>
-            <option value="outlined">Outlined</option>
-          </select>
-        </label>
-        {!fill && (
-          <label>
-            Stroke Width:
-            <input
-              type="number"
-              value={strokeWidth}
-              onChange={(e) => setStrokeWidth(parseInt(e.target.value))}
-            />
-          </label>
-        )}
+            Rectangle
+          </button>
+          <button
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
+            onClick={() => setShapeType("circle")}
+          >
+            Circle
+          </button>
+          <button
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
+            onClick={() => setShapeType("line")}
+          >
+            Line
+          </button>
+          <button
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
+            onClick={() => setShapeType("polygon")}
+          >
+            Polygon
+          </button>
+
+          <div className="ml-4">
+            <label className="block text-gray-700 mb-2 mr-2 ml-4">
+              Color:
+              <select
+                value={color}
+                onChange={(e) => setColor(e.target.value)}
+                className="mt-1 ml-2 px-2 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="black">Black</option>
+                <option value="blue">Blue</option>
+                <option value="red">Red</option>
+                <option value="green">Green</option>
+                <option value="purple">Purple</option>
+              </select>
+            </label>
+          </div>
+
+          <div className="ml-4">
+            <label className="block text-gray-700 mb-2 mr-2">
+              Fill:
+              <select
+                value={fill ? "filled" : "outlined"}
+                onChange={(e) => setFill(e.target.value === "filled")}
+                className="mt-1 ml-2 px-2 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="filled">Filled</option>
+                <option value="outlined">Outlined</option>
+              </select>
+            </label>
+          </div>
+
+          {!fill && (
+            <div className="ml-4">
+              <label className="block text-gray-700 mb-2">
+                Stroke Width:
+                <input
+                  type="number"
+                  value={strokeWidth}
+                  onChange={(e) => setStrokeWidth(parseInt(e.target.value))}
+                  className="mt-1 px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                />
+              </label>
+            </div>
+          )}
+        </div>
       </div>
+
       <Stage
-        width={window.innerWidth}
-        height={window.innerHeight}
+        width={800}
+        height={500}
+        className="container max-w-5xl mx-auto rounded-xl border-4 border-gray-500 bg-gray-100"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
       >
@@ -295,5 +335,4 @@ const DrawComponent: React.FC = () => {
     </div>
   );
 };
-
 export default DrawComponent;
